@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="NightShift Plan">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <link rel="apple-touch-startup-image" href="./icon-512.png">
+<meta name="theme-color" content="#0a0a0a">
+  <link rel="manifest" href="./manifest.json">
+
+<title>Night Shift Fat Loss Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0e0f;
+  --surface: #18181b;
+  --surface2: #222226;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --text: #f0eff0;
+  --muted: #8a8a95;
+  --dim: #4a4a55;
+  --green: #1fba7e;
+  --green-dim: rgba(31,186,126,0.12);
+  --purple: #8b7cf6;
+  --purple-dim: rgba(139,124,246,0.12);
+  --amber: #f5a623;
+  --amber-dim: rgba(245,166,35,0.12);
+  --coral: #f06060;
+  --coral-dim: rgba(240,96,96,0.1);
+  --teal: #2dd4bf;
+  --teal-dim: rgba(45,212,191,0.1);
+  --r: 10px;
+  --r-lg: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { background: var(--bg); }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* ── Header ── */
+.app-header {
+  padding: 52px 20px 16px;
+  border-bottom: 0.5px solid var(--border);
+}
+.app-header h1 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: var(--text);
+}
+.app-header p {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* ── Bottom nav ── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  max-width: 480px;
+  margin: 0 auto;
+  background: rgba(14,14,15,0.96);
+  backdrop-filter: blur(12px);
+  border-top: 0.5px solid var(--border);
+  display: flex;
+  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  z-index: 100;
+}
+.nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--dim);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  transition: color 0.15s;
+}
+.nav-btn.active { color: var(--green); }
+.nav-btn svg { width: 22px; height: 22px; stroke-width: 1.8; }
+
+/* ── Pages ── */
+.page { display: none; padding: 20px; }
+.page.active { display: block; }
+
+/* ── Section title ── */
+.sec-title {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 24px 0 10px;
+}
+.sec-title:first-child { margin-top: 4px; }
+
+/* ── Stat grid ── */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
+.stat-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r);
+  padding: 12px 14px;
+}
+.stat-card .label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.stat-card .val { font-size: 20px; font-weight: 600; color: var(--text); letter-spacing: -0.5px; }
+.stat-card .sub { font-size: 11px; color: var(--dim); margin-top: 2px; }
+
+/* ── Badges ── */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+.badge-green { background: var(--green-dim); color: var(--green); }
+.badge-purple { background: var(--purple-dim); color: var(--purple); }
+.badge-amber { background: var(--amber-dim); color: var(--amber); }
+.badge-muted { background: var(--surface2); color: var(--muted); }
+.badge-coral { background: var(--coral-dim); color: var(--coral); }
+
+/* ── Cards ── */
+.card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.card-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+
+/* ── Exercise rows ── */
+.ex-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 0.5px solid var(--border);
+  font-size: 13px;
+}
+.ex-row:last-child { border-bottom: none; }
+.ex-name { color: var(--text); }
+.ex-val { color: var(--muted); font-family: 'DM Mono', monospace; font-size: 12px; }
+
+/* ── Day pill nav ── */
+.day-pills {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 14px;
+  scrollbar-width: none;
+}
+.day-pills::-webkit-scrollbar { display: none; }
+.day-pill {
+  flex-shrink: 0;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 0.5px solid var(--border);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.day-pill.active { background: var(--green-dim); color: var(--green); border-color: rgba(31,186,126,0.3); }
+
+/* ── Meal cards ── */
+.meal-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.meal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+.meal-name { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.meal-kcal { font-size: 11px; color: var(--dim); font-family: 'DM Mono', monospace; }
+.meal-recipe { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 5px; }
+.meal-time { font-size: 11px; color: var(--purple); margin-bottom: 6px; }
+.meal-ingr { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 6px; }
+.meal-how { font-size: 12px; color: var(--dim); line-height: 1.6; background: var(--surface2); border-radius: 8px; padding: 8px 10px; margin-top: 6px; }
+.macros { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
+.mac { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-family: 'DM Mono', monospace; }
+.mac-p { background: rgba(31,186,126,0.1); color: #1fba7e; }
+.mac-c { background: rgba(139,124,246,0.1); color: #8b7cf6; }
+.mac-f { background: rgba(245,166,35,0.1); color: #f5a623; }
+
+/* ── Totals bar ── */
+.day-total {
+  background: var(--surface2);
+  border-radius: var(--r);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 12px;
+}
+.day-total .tot-label { font-weight: 500; color: var(--text); }
+.day-total .tots { display: flex; gap: 12px; }
+.day-total .tot { color: var(--muted); }
+.day-total .tot span { font-family: 'DM Mono', monospace; color: var(--text); }
+
+/* ── Timeline ── */
+.tl-row {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 0.5px solid var(--border);
+}
+.tl-row:last-child { border-bottom: none; }
+.tl-time { font-size: 11px; color: var(--muted); min-width: 62px; font-family: 'DM Mono', monospace; padding-top: 2px; }
+.tl-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+.tl-text { font-size: 13px; color: var(--text); line-height: 1.4; }
+.tl-sub { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+
+/* ── Shop list ── */
+.shop-section { margin-bottom: 14px; }
+.shop-section-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 8px 0 6px;
+  border-bottom: 0.5px solid var(--border);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.shop-item {
+  font-size: 13px;
+  color: var(--text);
+  padding: 6px 0;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.shop-item:last-child { border-bottom: none; }
+.shop-check {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--border2);
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.shop-item.checked .shop-check { background: var(--green); border-color: var(--green); }
+.shop-item.checked .shop-label { color: var(--dim); text-decoration: line-through; }
+.shop-check svg { display: none; }
+.shop-item.checked .shop-check svg { display: block; }
+
+/* ── Progress bar ── */
+.progress-wrap { background: var(--surface2); border-radius: 4px; height: 6px; overflow: hidden; margin: 8px 0; }
+.progress-fill { height: 6px; border-radius: 4px; background: var(--green); transition: width 0.6s ease; }
+
+/* ── Tips ── */
+.tip-row {
+  padding: 10px 0;
+  border-bottom: 0.5px solid var(--border);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.tip-row:last-child { border-bottom: none; }
+.tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.tip-text { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.tip-text strong { color: var(--text); font-weight: 500; }
+
+/* ── Accordion ── */
+.accord-btn {
+  width: 100%;
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 6px;
+  text-align: left;
+  transition: background 0.15s;
+}
+.accord-btn:active { background: var(--surface2); }
+.accord-body {
+  background: var(--surface);
+  border: 0.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+  margin-top: -4px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  display: none;
+}
+.accord-body.open { display: block; }
+.chevron { transition: transform 0.2s; color: var(--dim); font-size: 18px; }
+.chevron.open { transform: rotate(180deg); }
+
+/* ── Warn box ── */
+.warn-box {
+  background: var(--amber-dim);
+  border: 0.5px solid rgba(245,166,35,0.25);
+  border-radius: var(--r);
+  padding: 10px 12px;
+  font-size: 12px;
+  color: var(--amber);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <h1>Night Shift Plan</h1>
+  <p>65 kg · 167 cm · Fat loss · 10pm–6am shift</p>
+</div>
+
+<!-- ═══════════ PAGE: TODAY ═══════════ -->
+<div class="page active" id="page-today">
+  <p class="sec-title">Your overview</p>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="label">Daily target</div><div class="val">1,600</div><div class="sub">kcal gym days</div></div>
+    <div class="stat-card"><div class="label">60-day goal</div><div class="val">−4 kg</div><div class="sub">realistic result</div></div>
+    <div class="stat-card"><div class="label">Protein daily</div><div class="val">130g</div><div class="sub">2g per kg bodyweight</div></div>
+    <div class="stat-card"><div class="label">Gym sessions</div><div class="val">3–4</div><div class="sub">per week, pre-shift</div></div>
+  </div>
+
+  <p class="sec-title">Gym window</p>
+  <div class="card">
+    <div class="card-title"><span>Daily schedule <span class="badge badge-purple">10pm–6am shift</span></span></div>
+    <div class="tl-row"><div class="tl-time">3:00pm</div><div class="tl-dot" style="background:#f5a623;"></div><div><div class="tl-text">Wake up — go outside for 10 min</div><div class="tl-sub">Sunlight resets your cortisol rhythm</div></div></div>
+    <div class="tl-row"><div class="tl-time">3:15pm</div><div class="tl-dot" style="background:#1fba7e;"></div><div><div class="tl-text">Pre-workout meal (~400 kcal)</div><div class="tl-sub">Oats + protein, 45 min before gym</div></div></div>
+    <div class="tl-row"><div class="tl-time">4:00pm</div><div class="tl-dot" style="background:#8b7cf6;"></div><div><div class="tl-text">Gym session — 45–55 min</div><div class="tl-sub">HIIT + cable or rowing + cable</div></div></div>
+    <div class="tl-row"><div class="tl-time">5:00pm</div><div class="tl-dot" style="background:#1fba7e;"></div><div><div class="tl-text">Biggest meal of the day</div><div class="tl-sub">Protein + carbs + veg · ~500 kcal</div></div></div>
+    <div class="tl-row"><div class="tl-time">8:30pm</div><div class="tl-dot" style="background:#1fba7e;"></div><div><div class="tl-text">Light pre-shift snack</div><div class="tl-sub">Greek yogurt / cottage cheese · ~200 kcal</div></div></div>
+    <div class="tl-row"><div class="tl-time">10:00pm</div><div class="tl-dot" style="background:#4a4a55;"></div><div><div class="tl-text">Shift starts — bring container</div></div></div>
+    <div class="tl-row"><div class="tl-time">1:30am</div><div class="tl-dot" style="background:#1fba7e;"></div><div><div class="tl-text">Mid-shift meal</div><div class="tl-sub">Protein + veg only · max 350 kcal</div></div></div>
+    <div class="tl-row"><div class="tl-time">6:00am</div><div class="tl-dot" style="background:#4a4a55;"></div><div><div class="tl-text">Shift ends — straight home</div><div class="tl-sub">No large meals before sleep</div></div></div>
+    <div class="tl-row"><div class="tl-time">7:00am</div><div class="tl-dot" style="background:#8b7cf6;"></div><div><div class="tl-text">Sleep · blackout blinds · phone off</div></div></div>
+  </div>
+
+  <p class="sec-title">60-day projection</p>
+  <div class="card">
+    <div class="card-subtitle">Starting at 65 kg, following this plan consistently</div>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span style="color:var(--muted);">Realistic (consistent)</span><span style="color:var(--green);font-family:'DM Mono',monospace;">−4 kg → 61 kg</span></div><div class="progress-wrap"><div class="progress-fill" style="width:57%;background:var(--green);"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span style="color:var(--muted);">Good (everything dialled)</span><span style="color:var(--purple);font-family:'DM Mono',monospace;">−5.5 kg → 59.5 kg</span></div><div class="progress-wrap"><div class="progress-fill" style="width:79%;background:var(--purple);"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;"><span style="color:var(--muted);">Maximum (perfect conditions)</span><span style="color:var(--amber);font-family:'DM Mono',monospace;">−7 kg → 58 kg</span></div><div class="progress-wrap"><div class="progress-fill" style="width:100%;background:var(--amber);"></div></div></div>
+    </div>
+    <div style="font-size:11px;color:var(--dim);margin-top:10px;">Waist: −3 to 5 cm · Clothing: ~1 size down by day 45</div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE: WORKOUT ═══════════ -->
+<div class="page" id="page-workout">
+  <div class="warn-box">⚠ Never train after a night shift — always pre-shift (4pm) or on days off only.</div>
+
+  <p class="sec-title">Weekly schedule</p>
+  <div class="card">
+    <div class="ex-row"><span class="ex-name">Monday</span><span><span class="badge badge-muted">Rest — 20 min walk</span></span></div>
+    <div class="ex-row"><span class="ex-name">Tuesday</span><span><span class="badge badge-green">Gym · Session A</span></span></div>
+    <div class="ex-row"><span class="ex-name">Wednesday</span><span><span class="badge badge-muted">Rest — 20 min walk</span></span></div>
+    <div class="ex-row"><span class="ex-name">Thursday</span><span><span class="badge badge-green">Gym · Session B</span></span></div>
+    <div class="ex-row"><span class="ex-name">Friday</span><span><span class="badge badge-muted">Rest — 20 min walk</span></span></div>
+    <div class="ex-row"><span class="ex-name">Saturday</span><span><span class="badge badge-purple">Gym · Session A or B</span></span></div>
+    <div class="ex-row"><span class="ex-name">Sunday</span><span><span class="badge badge-muted">Full rest + meal prep</span></span></div>
+  </div>
+
+  <p class="sec-title">Session A — HIIT + Cable</p>
+  <div class="card">
+    <div class="card-title"><span>Treadmill HIIT</span><span style="font-size:12px;color:var(--muted);">25 min</span></div>
+    <div class="ex-row"><span class="ex-name">Warm-up walk</span><span class="ex-val">5 min · 5 km/h</span></div>
+    <div class="ex-row"><span class="ex-name">Sprint</span><span class="ex-val">30s · 10–12 km/h</span></div>
+    <div class="ex-row"><span class="ex-name">Recovery walk</span><span class="ex-val">60s · 5 km/h</span></div>
+    <div class="ex-row"><span class="ex-name">Rounds</span><span class="ex-val">8–10×</span></div>
+    <div class="ex-row"><span class="ex-name">Incline</span><span class="ex-val">1–2% throughout</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>Cable machine</span><span style="font-size:12px;color:var(--muted);">20 min</span></div>
+    <div class="ex-row"><span class="ex-name">Glute kickbacks</span><span class="ex-val">3 × 15 each</span></div>
+    <div class="ex-row"><span class="ex-name">Rope face pulls</span><span class="ex-val">3 × 15</span></div>
+    <div class="ex-row"><span class="ex-name">Cable woodchops</span><span class="ex-val">3 × 12 each</span></div>
+    <div class="ex-row"><span class="ex-name">Rest between sets</span><span class="ex-val">30–45s</span></div>
+  </div>
+
+  <p class="sec-title">Session B — Rowing + Lower body</p>
+  <div class="card">
+    <div class="card-title"><span>Rowing machine</span><span style="font-size:12px;color:var(--muted);">20 min</span></div>
+    <div class="ex-row"><span class="ex-name">Warm-up easy row</span><span class="ex-val">5 min</span></div>
+    <div class="ex-row"><span class="ex-name">Hard interval</span><span class="ex-val">1 min · hard</span></div>
+    <div class="ex-row"><span class="ex-name">Easy interval</span><span class="ex-val">1 min · easy</span></div>
+    <div class="ex-row"><span class="ex-name">Rounds</span><span class="ex-val">7×</span></div>
+    <div class="ex-row"><span class="ex-name">Target pace</span><span class="ex-val">~2:25/500m</span></div>
+    <div class="ex-row"><span class="ex-name">Cool-down</span><span class="ex-val">3 min easy</span></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><span>Cable lower body</span><span style="font-size:12px;color:var(--muted);">20 min</span></div>
+    <div class="ex-row"><span class="ex-name">Cable squats</span><span class="ex-val">3 × 15</span></div>
+    <div class="ex-row"><span class="ex-name">Romanian deadlifts</span><span class="ex-val">3 × 12</span></div>
+    <div class="ex-row"><span class="ex-name">Hip thrusts</span><span class="ex-val">3 × 15</span></div>
+    <div class="ex-row"><span class="ex-name">Lat pulldowns</span><span class="ex-val">3 × 12</span></div>
+    <div class="ex-row"><span class="ex-name">Rest between sets</span><span class="ex-val">45s</span></div>
+  </div>
+
+  <p class="sec-title">Active rest days</p>
+  <div class="card">
+    <div class="tip-row"><div class="tip-icon" style="color:var(--amber);">☀</div><div class="tip-text"><strong>Go outside within 30 min of waking (3pm).</strong> Sunlight exposure is the single most important thing a night shift worker can do for fat loss hormones — it resets cortisol and leptin.</div></div>
+    <div class="tip-row"><div class="tip-icon" style="color:var(--green);">→</div><div class="tip-text">20–30 min brisk walk. Light yoga or stretching. No gym — night shift raises baseline cortisol so extra rest days matter more than for day workers.</div></div>
+  </div>
+</div>
+
+<!-- ═══════════ PAGE: FOOD ═══════════ -->
+<div class="page" id="page-food">
+  <div class="day-pills" id="food-pills"></div>
+  <div id="food-content"></div>
+</div>
+
+<!-- ═══════════ PAGE: SHOP ═══════════ -->
+<div class="page" id="page-shop">
+  <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Tap items to check them off as you shop. Buy once on Sunday for the whole week.</p>
+  <div id="shop-list"></div>
+</div>
+
+<!-- ═══════════ PAGE: TIPS ═══════════ -->
+<div class="page" id="page-tips">
+  <p class="sec-title">Night shift fat loss tips</p>
+
+  <button class="accord-btn" onclick="toggleAccord(this)">
+    <span>Sleep protection</span><span class="chevron">›</span>
+  </button>
+  <div class="accord-body">
+    <div class="tip-row"><div class="tip-icon">🛏</div><div class="tip-text"><strong>Blackout blinds or a sleep mask</strong> are non-negotiable — daylight halves melatonin production and destroys sleep quality.</div></div>
+    <div class="tip-row"><div class="tip-icon">☕</div><div class="tip-text"><strong>No caffeine after midnight</strong> if sleeping at 7am. Caffeine has a 6-hour half-life.</div></div>
+    <div class="tip-row"><div class="tip-icon">📵</div><div class="tip-text"><strong>Phone on flight mode.</strong> Every notification spikes cortisol during light sleep — this directly stalls fat loss.</div></div>
+    <div class="tip-row"><div class="tip-icon">😴</div><div class="tip-text">Poor sleep raises ghrelin (hunger hormone) and suppresses leptin (fullness hormone). No amount of willpower beats disrupted sleep hormones consistently.</div></div>
+  </div>
+
+  <button class="accord-btn" onclick="toggleAccord(this)">
+    <span>Eating traps to avoid</span><span class="chevron">›</span>
+  </button>
+  <div class="accord-body">
+    <div class="tip-row"><div class="tip-icon">🎰</div><div class="tip-text"><strong>Vending machine at 3am</strong> — hunger at that hour is 80% boredom + cortisol. Drink 500ml water, wait 10 min.</div></div>
+    <div class="tip-row"><div class="tip-icon">🌅</div><div class="tip-text"><strong>Big meal when you get home (7am)</strong> — insulin spikes just before sleep = maximum fat storage. If you need anything, keep it under 200 kcal, protein only.</div></div>
+    <div class="tip-row"><div class="tip-icon">⚡</div><div class="tip-text"><strong>Energy drinks during shift</strong> — the sugar crash at 4am is worse than the tiredness. Stick to black coffee or green tea before 1am, then water only.</div></div>
+    <div class="tip-row"><div class="tip-icon">🏋</div><div class="tip-text"><strong>"I'll gym after the shift"</strong> — this never happens. Post-shift training damages results. Pre-shift or day-off only, non-negotiable.</div></div>
+  </div>
+
+  <button class="accord-btn" onclick="toggleAccord(this)">
+    <span>Supplements that actually help</span><span class="chevron">›</span>
+  </button>
+  <div class="accord-body">
+    <div class="tip-row"><div class="tip-icon">☀</div><div class="tip-text"><strong>Vitamin D3 (2,000–4,000 IU)</strong> — night workers get near zero sunlight. Deficiency tanks energy and fat metabolism. Take with 3pm "breakfast".</div></div>
+    <div class="tip-row"><div class="tip-icon">💤</div><div class="tip-text"><strong>Magnesium glycinate (300mg)</strong> — take at shift end (6am). Improves sleep quality, reduces cortisol, supports muscle recovery.</div></div>
+    <div class="tip-row"><div class="tip-icon">🥛</div><div class="tip-text"><strong>Casein protein before sleep (7am)</strong> — digests slowly over 8hrs, keeping you in an anabolic state through the sleep window.</div></div>
+    <div class="tip-row"><div class="tip-icon">🐟</div><div class="tip-text"><strong>Omega-3 (1–2g EPA+DHA)</strong> — reduces the chronic low-grade inflammation that night shift causes. Take with biggest meal.</div></div>
+  </div>
+
+  <button class="accord-btn" onclick="toggleAccord(this)">
+    <span>Sunday meal prep guide</span><span class="chevron">›</span>
+  </button>
+  <div class="accord-body">
+    <p style="margin-bottom:10px;color:var(--text);font-weight:500;">90 minutes on Sunday sets you up for the entire week.</p>
+    <div class="tip-row"><div class="tip-icon" style="color:var(--green);">1</div><div class="tip-text"><strong>Cook grains (20 min):</strong> 300g dry brown rice + 150g quinoa. Portion into 6 containers, refrigerate. Lasts 5 days.</div></div>
+    <div class="tip-row"><div class="tip-icon" style="color:var(--green);">2</div><div class="tip-text"><strong>Batch-grill chicken (25 min):</strong> 600g chicken breast, season and grill. Slice when cool. Portion into 4×150g containers. Hard-boil 8 eggs.</div></div>
+    <div class="tip-row"><div class="tip-icon" style="color:var(--green);">3</div><div class="tip-text"><strong>Roast veg tray (20 min):</strong> 2 courgettes + 3 peppers + 1 broccoli. 200°C, 20 min. Split into 5 portions.</div></div>
+    <div class="tip-row"><div class="tip-icon" style="color:var(--green);">4</div><div class="tip-text"><strong>Overnight oats ×3 (10 min):</strong> 3 jars — 70g oats + scoop protein + oat milk + frozen berries. Seal, refrigerate. Ready Mon/Tue/Thu.</div></div>
+    <div class="tip-row"><div class="tip-icon" style="color:var(--green);">5</div><div class="tip-text"><strong>Pack shift containers ×3 (15 min):</strong> 3 airtight boxes — chicken + roasted veg + rice/chickpeas. Label Mon/Tue/Wed. Grab before shift.</div></div>
+  </div>
+
+  <p class="sec-title" style="margin-top:20px;">Key numbers</p>
+  <div class="stat-grid">
+    <div class="stat-card"><div class="label">BMR</div><div class="val">1,475</div><div class="sub">kcal at rest</div></div>
+    <div class="stat-card"><div class="label">TDEE</div><div class="val">2,150</div><div class="sub">kcal with activity</div></div>
+    <div class="stat-card"><div class="label">Deficit</div><div class="val">500</div><div class="sub">kcal per day</div></div>
+    <div class="stat-card"><div class="label">Fat loss</div><div class="val">~0.5 kg</div><div class="sub">per week</div></div>
+  </div>
+</div>
+
+<!-- ── Bottom navigation ── -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="showPage('today',this)" id="nav-today">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+    Today
+  </button>
+  <button class="nav-btn" onclick="showPage('workout',this)" id="nav-workout">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 5v14M18 5v14M3 8h3M18 8h3M3 16h3M18 16h3M6 12h12"/></svg>
+    Workout
+  </button>
+  <button class="nav-btn" onclick="showPage('food',this)" id="nav-food">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+    Food
+  </button>
+  <button class="nav-btn" onclick="showPage('shop',this)" id="nav-shop">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+    Shop
+  </button>
+  <button class="nav-btn" onclick="showPage('tips',this)" id="nav-tips">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+    Tips
+  </button>
+</nav>
+
+<script>
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleAccord(btn) {
+  const body = btn.nextElementSibling;
+  const chev = btn.querySelector('.chevron');
+  const isOpen = body.classList.contains('open');
+  document.querySelectorAll('.accord-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.chevron').forEach(c => c.classList.remove('open'));
+  if (!isOpen) { body.classList.add('open'); chev.classList.add('open'); }
+}
+
+// ── FOOD DATA ──
+const foodDays = [
+  { day:'Mon', type:'gym', kcal:1600, meals:[
+    {slot:'Pre-workout · 3:15pm', name:'Overnight protein oats', kcal:400, ingr:'70g oats · 1 scoop whey · oat milk · frozen berries · 1 tsp almond butter', how:'Combine oats, protein, oat milk in jar the night before. Berries go in fresh from freezer in the morning.', p:35, c:48, f:10},
+    {slot:'Post-workout · 5:00pm', name:'Salmon, sweet potato & greens', kcal:500, ingr:'150g salmon · 200g sweet potato · broccoli · lemon · olive oil', how:'Bake salmon 200°C 12 min. Microwave sweet potato 8 min. Steam broccoli 4 min.', p:38, c:44, f:14},
+    {slot:'Pre-shift · 8:30pm', name:'Cottage cheese pot', kcal:200, ingr:'150g cottage cheese · 5 rice crackers · cherry tomatoes', how:'No cooking. 2 min to plate.', p:20, c:16, f:4},
+    {slot:'Mid-shift · 1:30am', name:'Chicken & chickpea container', kcal:300, ingr:'150g grilled chicken strips · roasted veg · ½ tin chickpeas · balsamic', how:'Sunday prep container — grab from fridge before shift.', p:34, c:18, f:6},
+    {slot:'Optional · 4:00am', name:'Hard-boiled eggs', kcal:150, ingr:'2 hard-boiled eggs · cucumber slices', how:'From Sunday batch.', p:12, c:1, f:10},
+  ]},
+  { day:'Tue', type:'rest', kcal:1250, meals:[
+    {slot:'Breakfast · 3:30pm', name:'Spinach & feta omelette', kcal:350, ingr:'2 eggs · 30g feta · large handful spinach · 1 tomato · olive oil', how:'Whisk eggs, spray pan, pour. Add spinach & feta when edges set. Fold. 4–5 min.', p:22, c:4, f:18},
+    {slot:'Main meal · 6:30pm', name:'Turkey & quinoa bowl', kcal:450, ingr:'130g turkey mince · 80g quinoa · roasted veg · 1 tbsp tahini · lemon', how:'Brown mince 5–6 min. Serve over precooked quinoa. Top with veg and thinned tahini.', p:38, c:36, f:12},
+    {slot:'Pre-shift · 8:30pm', name:'Greek yogurt & almonds', kcal:120, ingr:'150g Greek yogurt 0% · 5 almonds · cinnamon', how:'Stir cinnamon through yogurt. 2 min.', p:16, c:10, f:5},
+    {slot:'Mid-shift · 1:30am', name:'Tuna & chickpea salad', kcal:300, ingr:'130g tinned tuna · ½ tin chickpeas · cucumber · tomatoes · balsamic', how:'Drain tuna and chickpeas. Combine, dress. Pack before shift.', p:34, c:20, f:7},
+  ]},
+  { day:'Wed', type:'gym', kcal:1600, meals:[
+    {slot:'Pre-workout · 3:15pm', name:'Scrambled eggs on rye', kcal:410, ingr:'3 eggs · 20g feta · 1 slice rye bread · spinach · olive oil', how:'Scramble eggs with feta on low heat, 3–4 min. Wilt spinach same pan. Toast rye.', p:30, c:22, f:18},
+    {slot:'Post-workout · 5:00pm', name:'Chicken stir-fry with rice', kcal:480, ingr:'150g chicken · 80g brown rice · pak choi · mushrooms · soy · ginger · garlic', how:'Slice chicken thin, stir-fry high heat 4 min. Veg 2 min. Soy + ginger 1 min. Serve over rice.', p:40, c:42, f:8},
+    {slot:'Pre-shift · 8:30pm', name:'Protein shake & rice cakes', kcal:200, ingr:'1 scoop whey in water · 5 rice crackers', how:'Shake in bottle. Done.', p:25, c:18, f:2},
+    {slot:'Mid-shift · 1:30am', name:'Turkey & roasted veg container', kcal:300, ingr:'120g turkey breast · roasted peppers & courgette · 1 tbsp pesto', how:'Sunday prep container with pesto added when packing.', p:30, c:12, f:10},
+    {slot:'Optional · 4:00am', name:'Edamame pot', kcal:150, ingr:'100g shelled edamame · sea salt', how:'Microwave 3 min from frozen. Season.', p:11, c:8, f:5},
+  ]},
+  { day:'Thu', type:'rest', kcal:1250, meals:[
+    {slot:'Breakfast · 3:30pm', name:'Yogurt berry bowl', kcal:380, ingr:'200g Greek yogurt 0% · 15g mixed seeds · 100g berries · drizzle honey', how:'Layer yogurt, berries, seeds. Drizzle honey.', p:22, c:30, f:12},
+    {slot:'Main meal · 6:30pm', name:'Soy-glazed salmon with kale', kcal:470, ingr:'150g salmon · 150g kale · ½ tin butter beans · soy · lemon · garlic', how:'Rub salmon with soy & garlic, pan-fry 3 min each side. Sauté kale, warm beans.', p:40, c:28, f:16},
+    {slot:'Pre-shift · 9:00pm', name:'String cheese & cucumber', kcal:120, ingr:'2 string cheese sticks · ½ cucumber sliced', how:'No prep.', p:14, c:2, f:7},
+    {slot:'Mid-shift · 1:30am', name:'Smoked salmon & rye crispbreads', kcal:280, ingr:'100g smoked salmon · 2 rye crispbreads · 30g light cream cheese', how:'Spread cream cheese on crispbreads, top with salmon. Pack before shift.', p:26, c:14, f:10},
+  ]},
+  { day:'Fri', type:'gym', kcal:1600, meals:[
+    {slot:'Pre-workout · 3:15pm', name:'Overnight oats (banana)', kcal:400, ingr:'70g oats · 1 scoop protein · oat milk · 1 banana · cinnamon', how:'Sunday prep jar. Slice banana on top fresh.', p:30, c:52, f:6},
+    {slot:'Post-workout · 5:00pm', name:'Prawn & rice bowl', kcal:490, ingr:'150g king prawns · 80g jasmine rice · broccoli · soy · sesame oil · ginger', how:'Stir-fry prawns 2 min/side. Add broccoli & garlic 2 min. Soy + sesame. Serve over rice.', p:36, c:48, f:8},
+    {slot:'Pre-shift · 8:30pm', name:'Banana & almond butter rice cake', kcal:170, ingr:'1 banana · 1 rice cake · 1 tsp almond butter', how:'Spread, eat. 1 min.', p:4, c:32, f:5},
+    {slot:'Mid-shift · 1:30am', name:'Chicken & butter bean salad', kcal:300, ingr:'130g grilled chicken · ½ tin butter beans · mixed leaves · tomatoes · balsamic', how:'Pack in container before shift.', p:34, c:20, f:8},
+    {slot:'Optional · 4:00am', name:'Hard-boiled eggs', kcal:140, ingr:'2 eggs · celery sticks', how:'From batch.', p:12, c:2, f:9},
+  ]},
+  { day:'Sat', type:'gym', kcal:1600, meals:[
+    {slot:'Pre-workout · 3:15pm', name:'Protein banana pancakes', kcal:430, ingr:'2 eggs · 1 ripe banana · cinnamon · berries · 2 tbsp Greek yogurt', how:'Mash banana + eggs + cinnamon. Fry as small pancakes on low 2 min/side. Top with berries.', p:22, c:50, f:10},
+    {slot:'Post-workout · 5:00pm', name:'Beef mince bowl & sweet potato', kcal:490, ingr:'140g beef mince 5% · 200g sweet potato · green salad · mustard · olive oil', how:'Brown mince 5–6 min. Bake sweet potato wedges 200°C 25 min. Dress salad.', p:40, c:38, f:14},
+    {slot:'Pre-shift · 8:30pm', name:'Casein shake', kcal:160, ingr:'1 scoop casein protein · 300ml water or oat milk', how:'Slow-digesting — keeps you full into the shift.', p:25, c:8, f:2},
+    {slot:'Mid-shift · 1:30am', name:'Tuna & quinoa box', kcal:300, ingr:'130g tinned tuna · 80g cooked quinoa · cherry tomatoes · spinach · lemon oil', how:'Sunday prep container with leftover quinoa.', p:36, c:20, f:6},
+    {slot:'Optional · 4:00am', name:'Greek yogurt pot', kcal:130, ingr:'120g Greek yogurt · 5 almonds', how:'Portion into small container before leaving.', p:14, c:8, f:6},
+  ]},
+  { day:'Sun', type:'rest', kcal:1180, meals:[
+    {slot:'Brunch · 3:30pm', name:'Smoked salmon & poached eggs', kcal:500, ingr:'100g smoked salmon · 2 eggs · ½ avocado · 1 slice sourdough · lemon · black pepper', how:'Poach eggs in simmering water 3 min. Toast sourdough. Layer: toast → smashed avocado → salmon → eggs → pepper.', p:38, c:24, f:22},
+    {slot:'Dinner · 7:00pm', name:'One-tray chicken & Mediterranean veg', kcal:430, ingr:'160g chicken thigh (no skin) · courgette · cherry tomatoes · butter beans · olive oil · garlic · herbs', how:'Everything on one baking tray. 200°C, 30 min. Minimal washing up.', p:40, c:26, f:12},
+    {slot:'Evening · 9:00pm', name:'Casein protein shake', kcal:150, ingr:'1 scoop casein · 300ml water', how:'Before bed. Slow-release overnight.', p:24, c:6, f:2},
+  ]},
+];
+
+function buildFoodPage() {
+  const pills = document.getElementById('food-pills');
+  pills.innerHTML = foodDays.map((d,i) =>
+    `<button class="day-pill${i===0?' active':''}" onclick="showFoodDay(${i},this)">${d.day}</button>`
+  ).join('');
+  showFoodDay(0, pills.children[0]);
+}
+
+function showFoodDay(idx, btn) {
+  document.querySelectorAll('.day-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const d = foodDays[idx];
+  let tp=0,tc=0,tf=0;
+  let html = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+    <span class="badge ${d.type==='gym'?'badge-green':'badge-muted'}">${d.type==='gym'?'Gym day':'Rest day'}</span>
+    <span style="font-size:12px;color:var(--muted);">Target ${d.kcal} kcal</span>
+  </div>`;
+  d.meals.forEach(m => {
+    tp+=m.p; tc+=m.c; tf+=m.f;
+    html += `<div class="meal-card">
+      <div class="meal-header">
+        <div class="meal-name">${m.slot.split('·')[0].trim()}</div>
+        <div class="meal-kcal">${m.kcal} kcal</div>
+      </div>
+      <div class="meal-time">${m.slot.split('·')[1]?.trim() || ''}</div>
+      <div class="meal-recipe">${m.name}</div>
+      <div class="meal-ingr">${m.ingr}</div>
+      <div class="meal-how">${m.how}</div>
+      <div class="macros">
+        <span class="mac mac-p">P ${m.p}g</span>
+        <span class="mac mac-c">C ${m.c}g</span>
+        <span class="mac mac-f">F ${m.f}g</span>
+      </div>
+    </div>`;
+  });
+  html += `<div class="day-total">
+    <span class="tot-label">Total</span>
+    <div class="tots">
+      <span class="tot" style="color:var(--green)">P <span>${tp}g</span></span>
+      <span class="tot" style="color:var(--purple)">C <span>${tc}g</span></span>
+      <span class="tot" style="color:var(--amber)">F <span>${tf}g</span></span>
+      <span class="tot">kcal <span>${d.kcal}</span></span>
+    </div>
+  </div>`;
+  document.getElementById('food-content').innerHTML = html;
+}
+
+// ── SHOP DATA ──
+const shopData = [
+  { cat:'Proteins', items:['Chicken breast 1 kg','Salmon fillets ×3','Turkey breast 400g','Beef mince 5% fat 400g','Eggs ×18','Tinned tuna ×4','King prawns 300g','Smoked salmon 200g','Cod fillet ×2','Whey protein powder','Casein protein powder'] },
+  { cat:'Dairy & fridge', items:['Greek yogurt 0% ×4 large','Cottage cheese 500g','Feta cheese 200g','String cheese ×6','Avocados ×3','Almond butter 1 jar','Unsweetened oat milk 1L','Light cream cheese 150g'] },
+  { cat:'Veg & fruit', items:['Broccoli ×2 heads','Spinach 200g bag','Courgettes ×3','Bell peppers ×5','Cherry tomatoes 400g','Cucumber ×2','Kale 200g','Asparagus 1 bunch','Bananas ×7','Blueberries 200g','Mixed berries 400g frozen','Lemons ×3','Pak choi or cabbage'] },
+  { cat:'Carbs & dry goods', items:['Oats 1 kg bag','Brown rice 1 kg','Sweet potatoes ×4','Quinoa 400g','Butter beans ×2 tins','Chickpeas ×2 tins','Rice cakes 1 pack','Rye crispbreads 1 pack','Wholegrain bread 1 loaf','Jasmine rice 500g'] },
+  { cat:'Oils & flavour', items:['Olive oil','Soy sauce / tamari','Balsamic vinegar','Pesto 1 jar','Tahini 1 jar','Honey small jar','Mixed seeds 200g','Almonds / cashews 200g','Cinnamon','Fresh garlic','Fresh ginger','Sea salt & black pepper'] },
+];
+
+const shopChecked = new Set();
+
+function buildShopList() {
+  const container = document.getElementById('shop-list');
+  container.innerHTML = shopData.map(cat => {
+    const items = cat.items.map((item, i) => {
+      const key = cat.cat + '_' + i;
+      const checked = shopChecked.has(key) ? 'checked' : '';
+      return `<div class="shop-item ${checked}" onclick="toggleShop(this,'${key}')">
+        <div class="shop-check"><svg width="11" height="9" viewBox="0 0 11 9" fill="none" stroke="white" stroke-width="2"><polyline points="1,4.5 4,7.5 10,1"/></svg></div>
+        <span class="shop-label">${item}</span>
+      </div>`;
+    }).join('');
+    return `<div class="shop-section">
+      <div class="shop-section-name">${cat.cat}</div>
+      ${items}
+    </div>`;
+  }).join('');
+}
+
+function toggleShop(el, key) {
+  el.classList.toggle('checked');
+  if (el.classList.contains('checked')) shopChecked.add(key);
+  else shopChecked.delete(key);
+}
+
+buildFoodPage();
+buildShopList();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', {scope: './'}).catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
